@@ -7,29 +7,29 @@ import List from "./components/list";
 
 class App extends Component {
   state = {
-    edit: false
+    edit: false,
+    idEdit:null
   };
-  handleEdit = event => {
-    console.log(event);
-    this.setState({ edit: !this.state.edit });
+  handleEdit = id => {
+    console.log(id);
+    this.setState({ edit: !this.state.edit,idEdit: id });
   };
   handleSubmit = event => {
     event.preventDefault();
-    let value = event.target.tarea.value;
+    let value = event.target.item.value;
     this.props.dispatch(addItem(value));
-    value = "";
+    event.target.item.value = "";
   };
   render() {
     const {items} = this.props;
     return (
       <div className="App">
         <Input handleSubmit={this.handleSubmit} />
-        <br />
-        <br />
         <List
           items={items}
           handleEdit={this.handleEdit}
           edit={this.state.edit}
+          idEdit={this.state.idEdit}
         />
       </div>
     );

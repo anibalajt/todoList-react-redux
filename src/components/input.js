@@ -3,7 +3,7 @@ import React from "react";
 let AddItem = ({ handleSubmit, dispatch }) => {
   return (
     <form onSubmit={handleSubmit}>
-      <input type="text" name="tarea" placeholder="tarea" />
+      <input className="new" type="text" name="item" placeholder="tarea" />
     </form>
   );
 };
