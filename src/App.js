@@ -1,18 +1,29 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+
+import Input from "./components/input";
+import List from "./components/list";
 
 class App extends Component {
+  state = {
+    edit: false
+  };
+  handleEdit = event => {
+    console.log("edit: ", this.state.edit);
+    this.setState({ edit: !this.state.edit });
+  };
+  handleSubmit = event => {
+    event.preventDefault();
+    console.log("handleSubmit");
+  };
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Input handleSubmit={this.handleSubmit} />
+        <br />
+        <br />
+        <br />
+        <br />
+        <List handleEdit={this.handleEdit} edit={this.state.edit} />
       </div>
     );
   }
