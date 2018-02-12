@@ -6,7 +6,8 @@ import {
   completedItem,
   clearCompleted,
   deleteItem,
-  toggleAll
+  toggleAll,
+  fetchPosts
 } from "./actions";
 
 import Input from "./components/input";
@@ -55,6 +56,9 @@ class App extends Component {
   handleToggleAll = (e) => {
     this.props.dispatch(toggleAll(e.target.checked));
   };
+  componentDidMount(){
+    this.props.dispatch(fetchPosts('loadItems'));
+  }
   render() {
     const { items } = this.props;
     return (

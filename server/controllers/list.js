@@ -7,6 +7,22 @@ var con = mysql.createConnection({
   database: "todo" // use the specified database
 });
 
+export const loadItems = (req, res) => {
+  let r = con.connect(function(err) {
+    if (err) {
+      console.log("err: ", err);
+    }
+    var query = `SELECT * FROM list`;
+    con.query(query, (err, result, fields) => {
+      if (err) {
+        console.log(err);
+        return false;
+      }
+      console.log(result)
+      return res.status(201).send(result);
+    });
+  });
+};
 export const addItem = (req, res) => {
   const text = req.body.text;
 

@@ -1,5 +1,8 @@
 export default (state = [], action) => {
   switch (action.type) {
+    case "LOAD_ITEMS":
+      console.log("action: ", action);
+      return [];
     case "ADD_ITEM":
       return [
         {
