@@ -1,43 +1,98 @@
-let nextItemId = 0;
-let state = [];
+var mysql = require("mysql");
+
+var con = mysql.createConnection({
+  host: "localhost", // ip address of server running mysql
+  user: "root", // user name to your mysql database
+  password: "123456", // corresponding password
+  database: "todo" // use the specified database
+});
+
 export const addItem = (req, res) => {
   const text = req.body.text;
-  state.push({
-    id: ++nextItemId,
-    text,
-    completed: false
+
+  let r = con.connect(function(err) {
+    if (err) {
+      console.log("err: ", err);
+    }
+    var query = `Insert into list (text) values ('${text}');`;
+    con.query(query, (err, result, fields) => {
+      if (err) {
+        console.log(err);
+        return false;
+      }
+      return res.status(201).send({ id: result.insertId });
+    });
   });
-  return res.status(201).send(state);
 };
 export const editItem = (req, res) => {
   const text = req.body.text;
   const id = req.body.id;
-  state.map(
-    item => (parseInt(item.id) == parseInt(id) ? (item.text = text) : item)
-  );
-  return res.status(201).send(state);
+
+  con.connect(function(err) {
+    if (err) {
+      console.log("err: ", err);
+    }
+    var query = `Update list SET text = '${text}' WHERE id = '${id}';`;
+    console.log(query);
+    con.query(query, (err, result, fields) => {
+      if (err) {
+        console.log(err);
+        return false;
+      }
+      return res.status(201).send({ ok: true });
+    });
+  });
+
+  // return res.status(201).send(state);
 };
 export const deleteItem = async (req, res) => {
   const id = req.query.id;
-  state = await state.filter(
-    item => (parseInt(item.id) == parseInt(id) ? null : item)
-  );
-  return res.status(201).send(state);
+
+  con.connect(function(err) {
+    if (err) {
+      console.log("err: ", err);
+    }
+    var query = `Delete from list WHERE id = '${id}';`;
+
+    con.query(query, (err, result, fields) => {
+      if (err) {
+        console.log(err);
+        return false;
+      }
+      console.log(result);
+      return res.status(201).send({ ok: true });
+    });
+  });
 };
 export const completedItem = (req, res) => {
   const id = req.query.id;
-  state.map(
-    item =>
-      parseInt(item.id) == parseInt(id)
-        ? (item.completed = !item.completed)
-        : item
-  );
-  return res.status(201).send(state);
+  const completed = req.query.completed;
+
+  con.connect(function(err) {
+    if (err) {
+      console.log("err: ", err);
+    }
+    var query = `Update list SET completed = ${completed}' WHERE id = '${id}';`;
+    console.log(query);
+    con.query(query, (err, result, fields) => {
+      if (err) {
+        console.log(err);
+        return false;
+      }
+      return res.status(201).send({ ok: true });
+    });
+  });
 };
 
 export const clearCompleted = async (req, res) => {
-  state = await state.filter(item => {
-    return !item.completed ? item : null;
+  var query = `Delete from list WHERE completed = true;`;
+
+  con.query(query, (err, result, fields) => {
+    if (err) {
+      console.log(err);
+      return false;
+    }
+    console.log(result);
+    return res.status(201).send({ ok: true });
   });
-  return res.status(201).send(state);
 };
