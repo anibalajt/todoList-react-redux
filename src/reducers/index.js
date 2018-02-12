@@ -9,7 +9,12 @@ export default (state = [], action) => {
           completed: false
         }
       ];
-    case "TOGGLE_ITEM":
+    case "EDIT_ITEM":
+    return state.map(
+      item =>
+        item.id === action.id ? { ...item, text: action.text } : item
+    );
+    case "COMPLETED_ITEM":
       return state.map(
         item =>
           item.id === action.id ? { ...item, completed: !item.completed } : item

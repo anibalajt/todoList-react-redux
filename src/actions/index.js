@@ -6,17 +6,16 @@ export const addItem = text => {
     text
   };
 };
-
-// export const setVisibilityFilter = filter => {
-//   return {
-//     type: "SET_VISIBILITY_FILTER",
-//     filter
-//   };
-// };
-
-// export const toggleItem = id => {
-//   return {
-//     type: "TOGGLE_ITEM",
-//     id
-//   };
-// };
+export const editItem = (id,text) => {
+  return {
+    type: "EDIT_ITEM",
+    id,
+    text
+  };
+};
+export const completedItem = id => {
+  return {
+    type: "COMPLETED_ITEM",
+    id
+  };
+};

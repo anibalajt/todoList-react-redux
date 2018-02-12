@@ -1,9 +1,15 @@
 import React from "react";
 
-let AddItem = ({ handleSubmit, dispatch }) => {
+const AddItem = ({ handleSubmit, dispatch }) => {
   return (
     <form onSubmit={handleSubmit}>
-      <input className="new" type="text" name="item" placeholder="tarea" />
+      <input
+        autoComplete="off"
+        className="new"
+        type="text"
+        name="item"
+        placeholder="tarea"
+      />
     </form>
   );
 };
