@@ -1,10 +1,10 @@
-var mysql = require("mysql");
-
+import mysql from "mysql";
+import config from "../config";
 var con = mysql.createPool({
-  host: "localhost", // ip address of server running mysql
-  user: "root", // user name to your mysql database
-  password: "123456", // corresponding password
-  database: "todo" // use the specified database
+  host: config.host,
+  user: config.user,
+  password: config.password,
+  database: config.database
 });
 
 export const loadItems = (req, res) => {

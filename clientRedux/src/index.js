@@ -7,7 +7,6 @@ import thunk from "redux-thunk";
 import Items from "./reducers";
 import "./style/index.css";
 import App from "./App";
-import registerServiceWorker from "./registerServiceWorker";
 
 let store = createStore(Items, applyMiddleware(thunk));
 
@@ -17,4 +16,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("root")
 );
-registerServiceWorker();

@@ -40,7 +40,7 @@ const List = ({
               onChange={handleCompleted.bind(this, item.id, !item.completed)}
             />
             <label onDoubleClick={() => handleEdit(item.id)}>
-              {item.text} - {item.id}
+              {item.text}
             </label>
             <button
               className="delete"

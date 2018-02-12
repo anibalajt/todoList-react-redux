@@ -1,6 +1,6 @@
 import React from "react";
 
-const AddItem = ({ handleToggleAll, handleSubmit, textEdit }) => {
+const Input = ({ handleToggleAll, handleSubmit, textEdit }) => {
   return (
     <form onSubmit={handleSubmit}>
       {!textEdit ? (
@@ -23,4 +23,4 @@ const AddItem = ({ handleToggleAll, handleSubmit, textEdit }) => {
   );
 };
 
-export default AddItem;
+export default Input;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { toggleAll, fetchPosts, fetchGet } from "./actions";
+import { fetchPosts, fetchGet } from "./actions";
 
 import Input from "./components/input";
 import List from "./components/list";

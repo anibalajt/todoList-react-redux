@@ -1,4 +1,5 @@
 import axios from "axios";
+import config from "../config"
 
 const loadItems = data => {
   return {
@@ -33,7 +34,6 @@ const completedItem = (response, obj) => {
   };
 };
 const toggleAll = (response, obj) => {
-  console.log("object",obj);
   return {
     type: "TOGGLE_ALL",
     toggle: obj.completed
@@ -46,11 +46,11 @@ const clearCompleted = toggle => {
   };
 };
 const fetchGet = obj => {
-  console.log("fetchGets ",obj);
   const { id, text, completed, action } = obj;
+
   return dispatch => {
     axios
-      .get(`http://192.168.2.21:3001/api/${action}`, {
+      .get(`${config.api}${action}`, {
         params: {
           id,
           text,
@@ -58,7 +58,6 @@ const fetchGet = obj => {
         }
       })
       .then(function(response) {
-        console.log(response);
         dispatch(eval(action)(response.data, obj));
       })
       .catch(function(error) {
@@ -69,9 +68,8 @@ const fetchGet = obj => {
 const fetchPosts = obj => {
   const { id, text, action } = obj;
   return dispatch => {
-    console.log("dispatch");
     axios
-      .post(`http://192.168.2.21:3001/api/${action}`, {
+      .post(`${config.api}${action}`, {
         id,
         text
       })
