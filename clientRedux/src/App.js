@@ -1,14 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  addItem,
-  editItem,
-  completedItem,
-  clearCompleted,
-  deleteItem,
-  toggleAll,
-  fetchPosts
-} from "./actions";
+import { toggleAll, fetchPosts, fetchGet } from "./actions";
 
 import Input from "./components/input";
 import List from "./components/list";
@@ -23,17 +15,15 @@ class App extends Component {
   handleEdit = id => {
     this.setState({ edit: !this.state.edit, idEdit: id });
   };
+
   handleSubmit = event => {
     event.preventDefault();
     let value = event.target.item.value;
     if (!value.trim()) {
       return;
     }
-    this.props.dispatch(addItem(value));
+    this.props.dispatch(fetchPosts({ action: "addItem", text: value }));
     event.target.item.value = "";
-  };
-  handleCompleted = id => {
-    this.props.dispatch(completedItem(id));
   };
   handleSubmitEdit = event => {
     event.preventDefault();
@@ -41,23 +31,30 @@ class App extends Component {
     if (!value.trim()) {
       return;
     }
-    this.props.dispatch(editItem(this.state.idEdit, value));
+    this.props.dispatch(
+      fetchPosts({ action: "editItem", id: this.state.idEdit, text: value })
+    );
     this.setState({ edit: !this.state.edit });
+  };
+  handleCompleted = (id, completed) => {
+    this.props.dispatch(fetchGet({ action: "completedItem", id, completed }));
   };
   handleToggle = toggle => {
     this.setState({ toggle: toggle });
   };
   handleClearCompleted = e => {
-    this.props.dispatch(clearCompleted());
+    this.props.dispatch(fetchGet({ action: "clearCompleted" }));
   };
   handleDelete = id => {
-    this.props.dispatch(deleteItem(id));
+    this.props.dispatch(fetchGet({ action: "deleteItem", id }));
   };
-  handleToggleAll = (e) => {
-    this.props.dispatch(toggleAll(e.target.checked));
+  handleToggleAll = e => {
+    this.props.dispatch(
+      fetchGet({ action: "toggleAll", completed: e.target.checked })
+    );
   };
-  componentDidMount(){
-    this.props.dispatch(fetchPosts('loadItems'));
+  componentWillMount() {
+    this.props.dispatch(fetchGet({ action: "loadItems" }));
   }
   render() {
     const { items } = this.props;

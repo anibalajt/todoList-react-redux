@@ -1,6 +1,6 @@
 var mysql = require("mysql");
 
-var con = mysql.createConnection({
+var con = mysql.createPool({
   host: "localhost", // ip address of server running mysql
   user: "root", // user name to your mysql database
   password: "123456", // corresponding password
@@ -8,17 +8,17 @@ var con = mysql.createConnection({
 });
 
 export const loadItems = (req, res) => {
-  let r = con.connect(function(err) {
+  let r = con.getConnection(function(err, connection) {
     if (err) {
       console.log("err: ", err);
     }
-    var query = `SELECT * FROM list`;
+    var query = `SELECT * FROM list ORDER BY id DESC`;
     con.query(query, (err, result, fields) => {
       if (err) {
         console.log(err);
         return false;
       }
-      console.log(result)
+      connection.release();
       return res.status(201).send(result);
     });
   });
@@ -26,7 +26,7 @@ export const loadItems = (req, res) => {
 export const addItem = (req, res) => {
   const text = req.body.text;
 
-  let r = con.connect(function(err) {
+  let r = con.getConnection(function(err, connection) {
     if (err) {
       console.log("err: ", err);
     }
@@ -36,6 +36,7 @@ export const addItem = (req, res) => {
         console.log(err);
         return false;
       }
+      connection.release();
       return res.status(201).send({ id: result.insertId });
     });
   });
@@ -44,7 +45,7 @@ export const editItem = (req, res) => {
   const text = req.body.text;
   const id = req.body.id;
 
-  con.connect(function(err) {
+  con.getConnection(function(err, connection) {
     if (err) {
       console.log("err: ", err);
     }
@@ -55,7 +56,8 @@ export const editItem = (req, res) => {
         console.log(err);
         return false;
       }
-      return res.status(201).send({ ok: true });
+      connection.release();
+      return res.status(201).send({ data: true });
     });
   });
 
@@ -64,7 +66,7 @@ export const editItem = (req, res) => {
 export const deleteItem = async (req, res) => {
   const id = req.query.id;
 
-  con.connect(function(err) {
+  con.getConnection(function(err, connection) {
     if (err) {
       console.log("err: ", err);
     }
@@ -75,8 +77,27 @@ export const deleteItem = async (req, res) => {
         console.log(err);
         return false;
       }
-      console.log(result);
-      return res.status(201).send({ ok: true });
+      connection.release();
+      return res.status(201).send({ data: true });
+    });
+  });
+};
+export const toggleAll = (req, res) => {
+  const completed = req.query.completed;
+
+  con.getConnection(function(err, connection) {
+    if (err) {
+      console.log("err: ", err);
+    }
+    var query = `Update list SET completed = ${completed};`;
+    console.log(query);
+    con.query(query, (err, result, fields) => {
+      if (err) {
+        console.log(err);
+        return false;
+      }
+      connection.release();
+      return res.status(201).send({ data: true });
     });
   });
 };
@@ -84,31 +105,36 @@ export const completedItem = (req, res) => {
   const id = req.query.id;
   const completed = req.query.completed;
 
-  con.connect(function(err) {
+  con.getConnection(function(err, connection) {
     if (err) {
       console.log("err: ", err);
     }
-    var query = `Update list SET completed = ${completed}' WHERE id = '${id}';`;
+    var query = `Update list SET completed = ${completed} WHERE id = ${id};`;
     console.log(query);
     con.query(query, (err, result, fields) => {
       if (err) {
         console.log(err);
         return false;
       }
-      return res.status(201).send({ ok: true });
+      connection.release();
+      return res.status(201).send({ data: true });
     });
   });
 };
 
 export const clearCompleted = async (req, res) => {
   var query = `Delete from list WHERE completed = true;`;
-
-  con.query(query, (err, result, fields) => {
+  con.getConnection(function(err, connection) {
     if (err) {
-      console.log(err);
-      return false;
+      console.log("err: ", err);
     }
-    console.log(result);
-    return res.status(201).send({ ok: true });
+    con.query(query, (err, result, fields) => {
+      if (err) {
+        console.log(err);
+        return false;
+      }
+      connection.release();
+      return res.status(201).send({ data: true });
+    });
   });
 };

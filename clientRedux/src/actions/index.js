@@ -1,41 +1,42 @@
 import axios from "axios";
 
-let nextItemId = 0;
-const loadItems = text => {
+const loadItems = data => {
   return {
-    type: "LOAD_ITEMS"
+    type: "LOAD_ITEMS",
+    data
   };
 };
-const addItem = text => {
+const addItem = (response, obj) => {
   return {
     type: "ADD_ITEM",
-    id: nextItemId++,
-    text
+    id: obj.id,
+    text: obj.text
   };
 };
-const editItem = (id, text) => {
+const editItem = (response, obj) => {
   return {
     type: "EDIT_ITEM",
-    id,
-    text
+    id: obj.id,
+    text: obj.text
   };
 };
-const deleteItem = id => {
+const deleteItem = (response, obj) => {
   return {
     type: "DELETE_ITEM",
-    id
+    id: obj.id
   };
 };
-const completedItem = id => {
+const completedItem = (response, obj) => {
   return {
     type: "COMPLETED_ITEM",
-    id
+    id: obj.id
   };
 };
-const toggleAll = toggle => {
+const toggleAll = (response, obj) => {
+  console.log("object",obj);
   return {
     type: "TOGGLE_ALL",
-    toggle
+    toggle: obj.completed
   };
 };
 
@@ -44,13 +45,43 @@ const clearCompleted = toggle => {
     type: "CLEAR_COMPLETED"
   };
 };
-const fetchPosts = subreddit => {
-  console.log("fetchPosts");
+const fetchGet = obj => {
+  console.log("fetchGets ",obj);
+  const { id, text, completed, action } = obj;
   return dispatch => {
-    // dispatch(requestPosts(subreddit));
-    return axios(`http://192.168.2.21/api/${subreddit}`)
-      .then(response => response.json())
-      .then(json => dispatch(loadItems(subreddit, json)));
+    axios
+      .get(`http://192.168.2.21:3001/api/${action}`, {
+        params: {
+          id,
+          text,
+          completed
+        }
+      })
+      .then(function(response) {
+        console.log(response);
+        dispatch(eval(action)(response.data, obj));
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+};
+const fetchPosts = obj => {
+  const { id, text, action } = obj;
+  return dispatch => {
+    console.log("dispatch");
+    axios
+      .post(`http://192.168.2.21:3001/api/${action}`, {
+        id,
+        text
+      })
+      .then(function(response) {
+        response.data.id ? (obj.id = response.data.id) : null;
+        dispatch(eval(action)(response.data, obj));
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   };
 };
 export {
@@ -61,5 +92,6 @@ export {
   completedItem,
   toggleAll,
   clearCompleted,
-  fetchPosts
+  fetchPosts,
+  fetchGet
 };

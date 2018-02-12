@@ -23,7 +23,6 @@ const List = ({
       });
       break;
   }
-
   return (
     <ul>
       {items.map(item => (
@@ -38,9 +37,9 @@ const List = ({
               checked={item.completed}
               className="toggle"
               type="checkbox"
-              onChange={handleCompleted.bind(this, item.id)}
+              onChange={handleCompleted.bind(this, item.id, !item.completed)}
             />
-            <label onClick={() => handleEdit(item.id)}>
+            <label onDoubleClick={() => handleEdit(item.id)}>
               {item.text} - {item.id}
             </label>
             <button
