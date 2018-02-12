@@ -1,20 +1,43 @@
 let nextItemId = 0;
-let state = []
+let state = [];
 export const addItem = (req, res) => {
-  return res.status(201).send({ aaa: "addItem" });
+  const text = req.body.text;
+  state.push({
+    id: ++nextItemId,
+    text,
+    completed: false
+  });
+  return res.status(201).send(state);
 };
 export const editItem = (req, res) => {
-  return res.status(201).send({ aaa: "editItem" });
+  const text = req.body.text;
+  const id = req.body.id;
+  state.map(
+    item => (parseInt(item.id) == parseInt(id) ? (item.text = text) : item)
+  );
+  return res.status(201).send(state);
 };
-export const deleteItem = (req, res) => {
-  return res.status(201).send({ aaa: "deleteItem" });
+export const deleteItem = async (req, res) => {
+  const id = req.query.id;
+  state = await state.filter(
+    item => (parseInt(item.id) == parseInt(id) ? null : item)
+  );
+  return res.status(201).send(state);
 };
 export const completedItem = (req, res) => {
-  return res.status(201).send({ aaa: "completedItem" });
+  const id = req.query.id;
+  state.map(
+    item =>
+      parseInt(item.id) == parseInt(id)
+        ? (item.completed = !item.completed)
+        : item
+  );
+  return res.status(201).send(state);
 };
-export const toggleAll = (req, res) => {
-  return res.status(201).send({ aaa: "toggleAll" });
-};
-export const clearCompleted = (req, res) => {
-  return res.status(201).send({ aaa: "clearCompleted" });
+
+export const clearCompleted = async (req, res) => {
+  state = await state.filter(item => {
+    return !item.completed ? item : null;
+  });
+  return res.status(201).send(state);
 };
