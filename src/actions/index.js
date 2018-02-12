@@ -25,6 +25,13 @@ export const completedItem = id => {
     id
   };
 };
+export const toggleAll = toggle => {
+  return {
+    type: "TOGGLE_ALL",
+    toggle
+  };
+};
+
 export const clearCompleted = toggle => {
   return {
     type: "CLEAR_COMPLETED"

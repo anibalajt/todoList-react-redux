@@ -5,7 +5,8 @@ import {
   editItem,
   completedItem,
   clearCompleted,
-  deleteItem
+  deleteItem,
+  toggleAll
 } from "./actions";
 
 import Input from "./components/input";
@@ -51,11 +52,17 @@ class App extends Component {
   handleDelete = id => {
     this.props.dispatch(deleteItem(id));
   };
+  handleToggleAll = (e) => {
+    this.props.dispatch(toggleAll(e.target.checked));
+  };
   render() {
     const { items } = this.props;
     return (
       <div className="App">
-        <Input handleSubmit={this.handleSubmit} />
+        <Input
+          handleToggleAll={this.handleToggleAll}
+          handleSubmit={this.handleSubmit}
+        />
         <List
           toggle={this.state.toggle}
           handleCompleted={this.handleCompleted}

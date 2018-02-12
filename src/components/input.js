@@ -1,9 +1,15 @@
 import React from "react";
 
-const AddItem = ({ handleSubmit, dispatch, textEdit }) => {
+const AddItem = ({ handleToggleAll, handleSubmit, textEdit }) => {
   return (
     <form onSubmit={handleSubmit}>
-      {!textEdit ? <input className="toggle-all" type="checkbox" /> : null}
+      {!textEdit ? (
+        <input
+          className="toggle-all"
+          type="checkbox"
+          onChange={handleToggleAll.bind(this)}
+        />
+      ) : null}
 
       <input
         defaultValue={textEdit}
