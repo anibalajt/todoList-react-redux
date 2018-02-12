@@ -1,11 +1,12 @@
 
-# `Installation`
+## Installation
 ```
 git clone https://github.com/anibalajt/todoList-react-redux.git
 ```
+## BD
+open ./bd/todo.sql, import database in MySQL
 
-
-# `Client`
+## Client
 
 open ./clientRedux 
 
@@ -18,11 +19,11 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ```
 module.exports = {
-  api: `http://localhost:3001/api/`
+  api: `http://localhost:3001/api/` // port api 
 };
 ```
 
-# `Server`
+## Server
 
 open ./server
 
@@ -33,11 +34,11 @@ yarn start
 
 Open [http://localhost:3001](http://localhost:3001) 
 
-## ./server/config.js
+./server/config.js
 
 ```
 module.exports = {
-  port: process.env.PORT || 3001,
+  port: 3001, //port api
   database: "todo",
   host: "localhost",
   user: "root",
