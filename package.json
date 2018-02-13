@@ -1,23 +1,14 @@
 {
-  "name": "sancrisoft",
+  "name": "server",
+  "version": "0.0.1",
+  "description": "server ",
+  "main": "index.js",
   "author": {
-    "name": "Andres jaraba",
+    "name": "anibalajt",
     "email": "anibalajt@gmail.com"
   },
-  "version": "0.1.0",
-  "private": true,
-  "description": "Prueba tecnica",
-  "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-redux": "^5.0.6",
-    "react-scripts": "1.1.1",
-    "redux": "^3.7.2"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "i": "cd ./server && yarn install && cd ../clientRedux && yarn install"
+  },
+  "license": "MIT"
 }

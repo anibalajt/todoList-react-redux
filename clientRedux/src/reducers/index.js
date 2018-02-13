@@ -1,5 +1,7 @@
 export default (state = [], action) => {
   switch (action.type) {
+    case "LOAD_ITEMS":
+      return [...action.data];
     case "ADD_ITEM":
       return [
         {
@@ -17,6 +19,13 @@ export default (state = [], action) => {
       return state.map(
         item =>
           item.id === action.id ? { ...item, completed: !item.completed } : item
+      );
+    case "TOGGLE_ALL":
+      return state.map(
+        item =>
+          item.completed === action.toggle
+            ? { ...item, completed: action.toggle }
+            : { ...item, completed: action.toggle }
       );
     case "DELETE_ITEM":
       return state.filter(item => {

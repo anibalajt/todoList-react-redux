@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "0.0.1",
+  "description": "server ",
+  "main": "index.js",
+  "author": {
+    "name": "anibalajt",
+    "email": "anibalajt@gmail.com"
+  },
+  "scripts": {
+    "start": "nodemon index.js --exec babel-node"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mysql": "^2.15.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "nodemon": "^1.14.12"
+  }
+}
