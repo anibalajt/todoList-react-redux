@@ -1,0 +1,14 @@
+{
+  "name": "server",
+  "version": "0.0.1",
+  "description": "server ",
+  "main": "index.js",
+  "author": {
+    "name": "anibalajt",
+    "email": "anibalajt@gmail.com"
+  },
+  "scripts": {
+    "i": "cd ./server && yarn install && cd ../clientRedux && yarn install"
+  },
+  "license": "MIT"
+}
