@@ -2,17 +2,17 @@
 ## Installation
 ```
 git clone https://github.com/anibalajt/todoList-react-redux.git
+yarn i // install all dependencies
 ```
 ## DataBase
 open `./bd/todo.sql`
 import database in MySQL
 
-## Client
+## ClientRedux
 
 open `./clientRedux `
 
 ```
-yarn install
 yarn start
 ```
 
@@ -29,7 +29,6 @@ module.exports = {
 open ./server
 
 ```
-yarn install
 yarn start
 ```
 
@@ -47,4 +46,12 @@ module.exports = {
 };
 ```
 
+
+## Clientgraphql
+
+open `./clientgraphql `
+
+```
+yarn start
+```
 
